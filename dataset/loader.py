@@ -89,8 +89,7 @@ class DetCollate:
             binaryMaps.append(element['mask'])
         output.update(
             img=torch.from_numpy(np.asarray(imgs, dtype=np.float64)).float(),
-            binaryMap=torch.from_numpy(np.asarray(binaryMaps, dtype=np.float64)).float(),
-        )
+            binaryMap=torch.from_numpy(np.asarray(binaryMaps, dtype=np.float64)).float())
         return output
 
 
