@@ -42,7 +42,7 @@ class Heed(nn.Module):
         ])
         self._conv: nn.Module = nn.Sequential(
             nn.Conv2d(in_channels=32, out_channels=3, kernel_size=1),
-            nn.BatchNorm2d(1),
+            nn.BatchNorm2d(3),
             nn.Sigmoid())
 
     def forward(self, x: Tensor):
