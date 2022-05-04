@@ -41,7 +41,7 @@ class Heed(nn.Module):
             Residual(32, 32, 32) for _ in range(layer_num)
         ])
         self._conv: nn.Module = nn.Sequential(
-            nn.Conv2d(in_channels=32, out_channels=1, kernel_size=1),
+            nn.Conv2d(in_channels=32, out_channels=3, kernel_size=1),
             nn.BatchNorm2d(1),
             nn.Sigmoid())
 

@@ -52,6 +52,7 @@ if __name__ == "__main__":
     in_image = torch.from_numpy(new_image).unsqueeze(0).permute(0, 3, 1, 2).float()
     start = time.time()
     out = model(in_image)
+    print(out.size())
     print(time.time() - start)
     # binaryMap = out['binaryMap'].squeeze(0).squeeze(0).cpu().detach().numpy().astype(np.uint8)
     # cv2.imshow("abc", binaryMap * 255)
