@@ -33,16 +33,16 @@ def weight_init(module):
 class ThresholdModel(nn.Module):
     def __init__(self, heed: Dict):
         super().__init__()
-        self._head: nn.Module = Heed(**heed)
+        self._heed: nn.Module = Heed(**heed)
         self.apply(weight_init)
 
     def forward(self, x: Tensor):
-        y = self._backbone(x)
+        y = self._heed(x)
         return y
 
 
 if __name__ == "__main__":
-    with open(r"D:\workspace\project\thresholding\asset\total_text\eb0.yaml", 'r', encoding='utf-8') as f:
+    with open(r"D:\workspace\project\mini_thesholding\asset\total_text\eb0.yaml", 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
     model = ThresholdModel(**config['lossModel']['model'])
     image = cv2.imread(r"D:\total_text\train\image\image0.jpg")
