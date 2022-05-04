@@ -28,7 +28,9 @@ class DetNorm:
     def _build(self, data: OrderedDict) -> OrderedDict:
         assert 'img' in data
         image: np.ndarray = data['img']
+        mask: np.ndarray = data['mask']
         image = (image.astype(np.float64) - self.mean) / 255.
         data['img'] = np.transpose(image, (2, 0, 1))
-        data['mask'] = data['mask'].astype(np.float32) / 255.
+        mask = mask.astype(np.float32) / 255.
+        data['mask'] = np.transpose(mask, (2, 0, 1))
         return data
