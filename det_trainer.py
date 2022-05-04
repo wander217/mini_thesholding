@@ -93,7 +93,7 @@ class DetTrainer:
         for batch in self._valid:
             with torch.no_grad():
                 batchSize: int = batch['img'].size(0)
-                pred, loss, metric = self._model(batch)
+                pred, loss = self._model(batch)
                 headLoss.update(loss.mean().item() * batchSize, batchSize)
             return {
                 'headLoss': headLoss.calc()
