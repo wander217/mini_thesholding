@@ -8,7 +8,6 @@ class DiceLoss(nn.Module):
         self._eps: float = eps
 
     def __call__(self, pred: Tensor, probMap: Tensor):
-        pred = pred[:, 0, :, :].float()
         intersection: Tensor = (pred.float() * probMap).sum()
         uninon: Tensor = probMap.sum() + pred.sum() + self._eps
         loss: Tensor = 1. - 2. * intersection / uninon
