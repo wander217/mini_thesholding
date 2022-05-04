@@ -10,6 +10,6 @@ class HeedLoss(nn.Module):
         super().__init__()
         self._binaryLoss = DiceLoss(**heed)
 
-    def __call__(self, pred: OrderedDict, batch: OrderedDict) -> Tensor:
-        binaryDist: Tensor = self._binaryLoss(pred['binaryMap'], batch['binaryMap'])
+    def __call__(self, pred: Tensor, batch: OrderedDict) -> Tensor:
+        binaryDist: Tensor = self._binaryLoss(pred, batch['binaryMap'])
         return binaryDist
