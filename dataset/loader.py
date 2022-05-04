@@ -82,44 +82,15 @@ class DetCollate:
 
     def __call__(self, batch: Tuple) -> OrderedDict:
         imgs: List = []
-        grayMaps: List = []
-        grayMasks: List = []
-        borderMaps: List = []
         binaryMaps: List = []
-        polygons: List = []
-        orgShapes: List = []
-        newShapes: List = []
-        ignores: List = []
         output: OrderedDict = OrderedDict()
         for element in batch:
             imgs.append(element['img'])
-            grayMaps.append(element['grayMap'])
-            grayMasks.append(element['grayMask'])
-            borderMaps.append(element['borderMap'])
-            binaryMaps.append(element['binaryMap'])
-            if "polygon" in element:
-                polygons.append(element['polygon'])
-            if "orgShape" in element:
-                orgShapes.append(element['orgShape'])
-            if "newShape" in element:
-                newShapes.append(element['newShape'])
-            if "ignore" in element:
-                ignores.append(element['ignore'])
+            binaryMaps.append(element['mask'])
         output.update(
             img=torch.from_numpy(np.asarray(imgs, dtype=np.float64)).float(),
-            grayMap=torch.from_numpy(np.asarray(grayMaps, dtype=np.float64)).float(),
-            grayMask=torch.from_numpy(np.asarray(grayMasks, dtype=np.int16)),
-            borderMap=torch.from_numpy(np.asarray(borderMaps, dtype=np.float64)).float(),
             binaryMap=torch.from_numpy(np.asarray(binaryMaps, dtype=np.float64)).float(),
         )
-        if len(polygons) != 0:
-            output.update(polygon=torch.from_numpy(np.asarray(polygons, dtype=np.int32)))
-        if len(orgShapes) != 0:
-            output.update(orgShape=torch.from_numpy(np.asarray(orgShapes, dtype=np.int32)))
-        if len(newShapes) != 0:
-            output.update(newShape=torch.from_numpy(np.asarray(newShapes, dtype=np.int32)))
-        if len(ignores) != 0:
-            output.update(ignore=torch.from_numpy(np.asarray(ignores, dtype=np.bool)))
         return output
 
 
