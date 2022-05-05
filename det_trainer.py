@@ -73,7 +73,7 @@ class DetTrainer:
 
     def _trainStep(self) -> Dict:
         self._model.train()
-        headLoss: DetAverager = DetAverager()
+        heedLoss: DetAverager = DetAverager()
         for i, batch in enumerate(self._train):
             self._optim.zero_grad()
             batchSize: int = batch['img'].size(0)
@@ -81,22 +81,22 @@ class DetTrainer:
             loss = loss.mean()
             loss.backward()
             self._optim.step()
-            headLoss.update(loss.item() * batchSize, batchSize)
+            heedLoss.update(loss.item() * batchSize, batchSize)
         return {
-            'headLoss': headLoss.calc(),
+            'heedLoss': heedLoss.calc(),
             'lr': self._curLR
         }
 
     def _validStep(self) -> Dict:
         self._model.eval()
-        headLoss: DetAverager = DetAverager()
+        heedLoss: DetAverager = DetAverager()
         for batch in self._valid:
             with torch.no_grad():
                 batchSize: int = batch['img'].size(0)
                 pred, loss = self._model(batch)
-                headLoss.update(loss.mean().item() * batchSize, batchSize)
+                heedLoss.update(loss.mean().item() * batchSize, batchSize)
             return {
-                'headLoss': headLoss.calc()
+                'heedLoss': heedLoss.calc()
             }
 
     def _save(self, trainRS: Dict, validRS: Dict, epoch: int):
