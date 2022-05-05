@@ -31,18 +31,18 @@ class Heed(nn.Module):
     def __init__(self, in_channel: int, layer_num: int):
         super().__init__()
         self._weight_init: nn.Module = nn.Sequential(
-            nn.Conv2d(in_channels=in_channel, out_channels=32, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(32),
+            nn.Conv2d(in_channels=in_channel, out_channels=64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            nn.Conv2d(in_channels=32, out_channels=32, kernel_size=1, stride=1),
-            nn.BatchNorm2d(32),
+            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(inplace=True))
         self._residuals: nn.ModuleList = nn.ModuleList([
-            Residual(32, 32, 32) for _ in range(layer_num)
+            Residual(64, 64, 64) for _ in range(layer_num)
         ])
         self._conv: nn.Module = nn.Sequential(
-            nn.Conv2d(in_channels=32, out_channels=3, kernel_size=1),
-            nn.BatchNorm2d(3),
+            nn.Conv2d(in_channels=64, out_channels=1, kernel_size=1),
+            nn.BatchNorm2d(1),
             nn.Sigmoid())
 
     def forward(self, x: Tensor):

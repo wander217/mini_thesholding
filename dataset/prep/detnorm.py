@@ -1,6 +1,7 @@
 import numpy as np
 from typing import List
 from collections import OrderedDict
+import cv2 as cv
 
 
 class DetNorm:
@@ -31,6 +32,7 @@ class DetNorm:
         mask: np.ndarray = data['mask']
         image = (image.astype(np.float64) - self.mean) / 255.
         data['img'] = np.transpose(image, (2, 0, 1))
+        mask = cv.cvtColor(mask, cv.COLOR_BGR2GRAY)
         mask = mask.astype(np.float32) / 255.
-        data['mask'] = np.transpose(mask, (2, 0, 1))
+        data['mask'] = mask[np.newaxis, :, :]
         return data
