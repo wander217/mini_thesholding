@@ -10,10 +10,7 @@ class BceLoss(nn.Module):
         self._ratio: float = ratio
         self._eps: float = eps
 
-    def __call__(self,
-                 pred: Tensor,
-                 probMap: Tensor,
-                 probMask: Tensor) -> Tensor:
+    def __call__(self, pred: Tensor, probMap: Tensor) -> Tensor:
         pos: Tensor = probMap.byte()
         neg: Tensor = (1 - probMap).byte()
         loss: Tensor = F.binary_cross_entropy(pred.float(), probMap, reduction='none')[:, 0, :, :]
