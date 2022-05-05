@@ -11,6 +11,7 @@ lossModel:
 
   loss:
     heed:
+      ratio: 3.
       eps: !!float '1e-6'
 
 score:
