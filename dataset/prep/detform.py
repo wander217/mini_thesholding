@@ -32,7 +32,7 @@ class DetForm:
 
         for tar in anno:
             if not tar['ignore']:
-                cv.fillPoly(target, [tar['polygon'].astype(np.int32)], 1)
+                cv.fillPoly(target, [np.array(tar['polygon']).astype(np.int32)], 1)
 
         return OrderedDict(
             img=img,
