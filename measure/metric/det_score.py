@@ -20,14 +20,14 @@ class DetScore:
         self._scoreThresh: float = scoreThresh
         self._label: str = label
 
-    def __call__(self, pred: Dict, batch: Dict) -> Tuple:
+    def __call__(self, pred: Tensor, batch: Dict) -> Tuple:
         '''
             :param pred: result of pred
             :param batch: ground truth
             :return: fit boxes  and its score
         '''
         # thresholding probability map
-        probMaps: Tensor = pred[self._label]
+        probMaps: Tensor = pred
         segMaps: Tensor = probMaps > self._probThresh
 
         boxes: List = []

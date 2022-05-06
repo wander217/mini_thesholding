@@ -3,6 +3,7 @@ import time
 from loss_model import LossModel
 import torch
 import yaml
+from torch import Tensor
 from measure.metric import DetScore
 from typing import Dict, List, Tuple, OrderedDict
 import numpy as np
@@ -52,8 +53,8 @@ class DBPredictor:
             h, w, _ = image.shape
             reImage, newH, newW = self._resize(image)
             inputImage = self._normalize(reImage)
-            pred: OrderedDict = self._model(dict(img=inputImage, shape=[newH, newW]), training=False)
-            binary = pred['binaryMap'].squeeze().cpu().detach().numpy()
+            pred: Tensor = self._model(dict(img=inputImage, shape=[newH, newW]), training=False)
+            binary = pred.squeeze().cpu().detach().numpy()
             print(binary.shape)
             cv.imshow("abc", np.uint8(binary * 255))
             cv.waitKey(0)
@@ -67,16 +68,16 @@ class DBPredictor:
 
 if __name__ == "__main__":
     configPath: str = r'asset/total_text/eb0.yaml'
-    pretrainedPath: str = r'asset/total_text/checkpoint_210.pth'
+    pretrainedPath: str = r'workspace/checkpoint/checkpoint_205.pth'
     # configPath: str = r'config/dbpp_eb0.yaml'
     # pretrainedPath: str = r'pretrained/eb0/checkpoint_941.pth'
     # imgPath: str = r'C:\Users\thinhtq\Downloads\vietnamese_original\vietnamese\unseen_test_images\im1999.jpg'
-    imgPath: str = r'C:\Users\Trinh_Thinh\Downloads\vietnamese_original\vietnamese\test_image\im1269.jpg'
+    # imgPath: str = r'C:\Users\Trinh_Thinh\Downloads\vietnamese_original\vietnamese\test_image\im1269.jpg'
+    imgPath: str = r'C:\Users\thinhtq\Downloads\vietnamese_original\vietnamese\test_image\im1213.jpg'
     predictor = DBPredictor(configPath, pretrainedPath)
     img = cv.imread(imgPath)
     start = time.time()
     boxes, scores = predictor(img)
-    print(len(boxes))
     # for box in boxes:
     #     img = cv.polylines(img, [box], True, (0, 0, 255), 2)
     # cv.imwrite("abc.jpg", img)
