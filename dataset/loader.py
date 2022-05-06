@@ -83,12 +83,15 @@ class DetCollate:
     def __call__(self, batch: Tuple) -> OrderedDict:
         imgs: List = []
         binaryMaps: List = []
+        binaryMasks:List = []
         output: OrderedDict = OrderedDict()
         for element in batch:
             imgs.append(element['img'])
             binaryMaps.append(element['mask'])
+            binaryMasks.append(element['target'])
         output.update(
             img=torch.from_numpy(np.asarray(imgs, dtype=np.float64)).float(),
+            binaryMask=torch.from_numpy(np.asarray(binaryMasks, dtype=np.float64)).float(),
             binaryMap=torch.from_numpy(np.asarray(binaryMaps, dtype=np.float64)).float())
         return output
 

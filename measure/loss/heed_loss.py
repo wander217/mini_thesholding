@@ -11,5 +11,5 @@ class HeedLoss(nn.Module):
         self._binaryLoss = BceLoss(**heed)
 
     def __call__(self, pred: Tensor, batch: OrderedDict) -> Tensor:
-        binaryDist: Tensor = self._binaryLoss(pred, batch['binaryMap'])
+        binaryDist: Tensor = self._binaryLoss(pred, batch['binaryMap'], batch['binaryMask'])
         return binaryDist

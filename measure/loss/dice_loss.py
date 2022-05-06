@@ -7,9 +7,9 @@ class DiceLoss(nn.Module):
         super().__init__()
         self._eps: float = eps
 
-    def __call__(self, pred: Tensor, probMap: Tensor):
-        intersection: Tensor = (pred.float() * probMap).sum()
-        uninon: Tensor = probMap.sum() + pred.sum() + self._eps
-        loss: Tensor = 1. - 2. * intersection / uninon
+    def __call__(self, pred: Tensor, probMap: Tensor, probMask: Tensor):
+        intersection: Tensor = (pred.float() * probMap * probMask).sum()
+        union: Tensor = (probMap * probMask).sum() + (pred * probMask).sum() + self._eps
+        loss: Tensor = 1. - 2. * intersection / union
         assert loss <= 1., loss
         return loss

@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import numpy as np
 from typing import Dict, List
+import cv2 as cv
 
 
 class DetForm:
@@ -27,14 +28,15 @@ class DetForm:
         img: np.ndarray = data['img']
         mask: np.ndarray = data['mask']
         train: bool = data['train']
+        target: np.ndarray = np.zeros(img.shape[:2], dtype=np.uint8)
 
         for tar in anno:
-            polygon.append(np.array(tar['polygon']))
-            ignore.append(tar['ignore'])
+            if not tar['ignore']:
+                cv.fillPoly(target, [tar['bbox'].astype(np.int32)], 1)
 
         return OrderedDict(
             img=img,
-            polygon=polygon,
+            target=target,
             ignore=np.array(ignore, dtype=np.uint8),
             mask=mask,
             train=train)
