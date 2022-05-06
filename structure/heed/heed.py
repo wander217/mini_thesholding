@@ -31,10 +31,15 @@ class Heed(nn.Module):
     def __init__(self, in_channel: int, layer_num: int):
         super().__init__()
         self._weight_init: nn.Module = nn.Sequential(
-            nn.Conv2d(in_channels=in_channel, out_channels=64, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels=in_channel,
+                      out_channels=64,
+                      kernel_size=3,
+                      padding=1),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
-            nn.Conv2d(in_channels=64, out_channels=64, kernel_size=1),
+            nn.Conv2d(in_channels=64,
+                      out_channels=64,
+                      kernel_size=1),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True))
         self._residuals: nn.ModuleList = nn.ModuleList([
